@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ade-beta <ade-beta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 14:11:08 by ade-beta          #+#    #+#             */
-/*   Updated: 2021/12/14 17:45:55 by ade-beta         ###   ########.fr       */
+/*   Created: 2021/12/15 14:28:22 by ade-beta          #+#    #+#             */
+/*   Updated: 2021/12/15 14:28:32 by ade-beta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,15 @@ char	*gnlret(int i, char **save)
 	}
 }
 
+void	*freeall(char *s1, char *s2)
+{
+	free(s1);
+	free(s2);
+	s1 = NULL;
+	s2 = NULL;
+	return (NULL);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*save[1024];
@@ -61,7 +70,7 @@ char	*get_next_line(int fd)
 		save[fd] = (char *)ft_calloc(1, 1);
 	buff = (char *)ft_calloc((BUFFER_SIZE + 1), 1);
 	if (!save[fd] || !buff)
-		return (NULL);
+		return (freeall(save[fd], buff));
 	while (!ft_strchr(save[fd], '\n') && i > 0)
 	{
 		i = read(fd, buff, BUFFER_SIZE);
